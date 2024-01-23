@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { Text, View, Image } from "react-native";
+import styles from "./initialPage.styles";
 import { LinearGradient } from "expo-linear-gradient";
-const splashImage = require("../assets/images/chef_logo.png");
+const splashImage = require("../../assets/images/chef_logo.png");
 
 export default function InitialPage() {
   return (
@@ -19,25 +20,3 @@ export default function InitialPage() {
     </LinearGradient>
   );
 }
-
-const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  appTitle: {
-    fontSize: 40,
-    color: "white",
-    marginBottom: 8,
-    fontFamily: "lato",
-  },
-  appTagline: {
-    fontSize: 16,
-    color: "white",
-    fontFamily: "lato",
-  },
-});
