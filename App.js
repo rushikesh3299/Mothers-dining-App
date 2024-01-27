@@ -1,7 +1,16 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View, Text } from "react-native";
 import { useFonts } from "expo-font";
-import { InitialPage } from "./components/index";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {
+  InitialPage,
+  HomePage,
+  ThaliPage,
+  CoursePage,
+} from "./components/index";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -17,9 +26,14 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <InitialPage />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="InitialPage" component={InitialPage} />
+        <Stack.Screen name="HomePage" component={HomePage} />
+        <Stack.Screen name="ThaliPage" component={ThaliPage} />
+        <Stack.Screen name="CoursePage" component={CoursePage} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

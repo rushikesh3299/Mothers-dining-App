@@ -1,9 +1,18 @@
 import { Text, View, Image } from "react-native";
 import styles from "./initialPage.styles";
 import { LinearGradient } from "expo-linear-gradient";
-const splashImage = require("../../assets/images/chef_logo.png");
+import { useEffect } from "react";
+const chefImg = require("../../assets/images/chef_logo.png");
 
-export default function InitialPage() {
+export default function InitialPage({ navigation }) {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigation.navigate("HomePage");
+    }, 5000);
+
+    return () => clearTimeout(timer); // Clean up the timer
+  }, [navigation]);
+
   return (
     <LinearGradient
       // Background Linear Gradient
@@ -11,7 +20,7 @@ export default function InitialPage() {
       style={styles.background}
     >
       <View style={styles.content}>
-        <Image source={splashImage} />
+        <Image source={chefImg} />
         <Text style={styles.appTitle}>Mothers Dining</Text>
         <Text style={styles.appTagline}>
           Your Shortcut to Nutritious, Delicious Meals
