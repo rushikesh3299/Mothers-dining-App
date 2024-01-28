@@ -8,10 +8,10 @@ export default function InitialPage({ navigation }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigation.navigate("HomePage");
-    }, 5000);
+    }, 3000);
 
     return () => clearTimeout(timer); // Clean up the timer
-  }, [navigation]);
+  });
 
   return (
     <LinearGradient

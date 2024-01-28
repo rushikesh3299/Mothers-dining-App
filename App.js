@@ -8,6 +8,8 @@ import {
   HomePage,
   ThaliPage,
   CoursePage,
+  Login,
+  SignUp,
 } from "./components/index";
 
 const Stack = createNativeStackNavigator();
@@ -32,6 +34,8 @@ export default function App() {
         <Stack.Screen name="HomePage" component={HomePage} />
         <Stack.Screen name="ThaliPage" component={ThaliPage} />
         <Stack.Screen name="CoursePage" component={CoursePage} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="SignUp" component={SignUp} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -14,7 +14,7 @@ export default function HomePage({ navigation }) {
       <Text style={styles.appTitle}>Mother's Dining</Text>
       <TouchableOpacity
         style={styles.menuBtn}
-        onPress={() => navigateHandler("ThaliPage")}
+        onPress={() => navigateHandler("Login")}
       >
         <Text style={styles.menuBtnText}>Explore Thalis</Text>
       </TouchableOpacity>

@@ -24,6 +24,7 @@ export default styles = StyleSheet.create({
     margin: 12,
   },
   menuBtnText: {
+    fontFamily: "lato",
     color: COLORS.pureWhite,
     fontSize: 24,
   },

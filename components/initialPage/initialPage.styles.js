@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
+export default styles = StyleSheet.create({
   background: {
     flex: 1,
   },
@@ -21,5 +21,3 @@ const styles = StyleSheet.create({
     fontFamily: "lato",
   },
 });
-
-export default styles;
