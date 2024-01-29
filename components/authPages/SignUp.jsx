@@ -5,10 +5,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./authPage.styles";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { useSelector, useDispatch } from "react-redux";
+import { successAuth } from "../../store/authSlice.js";
+import { signUpService } from "../../services/auth.js";
 
 const loginSchema = Yup.object().shape({
   name: Yup.string().required("Your name is required for SignUp"),
@@ -33,6 +36,18 @@ const loginSchema = Yup.object().shape({
 });
 
 export default function SignUp({ navigation }) {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isLoggedIn) navigation.navigate("HomePage");
+  }, [isLoggedIn]);
+
+  const submitSignUp = async () => {
+    const isLogin = await signUpService();
+    if (isLogin) dispatch(successAuth());
+  };
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.pageTitle}>SignUp</Text>
@@ -45,7 +60,7 @@ export default function SignUp({ navigation }) {
           confirmPassword: "",
         }}
         validationSchema={loginSchema}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={() => submitSignUp()}
       >
         {({
           handleChange,

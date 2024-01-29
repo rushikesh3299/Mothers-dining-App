@@ -1,8 +1,11 @@
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./authPage.styles";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { useSelector, useDispatch } from "react-redux";
+import { successAuth } from "../../store/authSlice.js";
+import { loginService } from "../../services/auth.js";
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
@@ -19,13 +22,25 @@ const loginSchema = Yup.object().shape({
 });
 
 export default function Login({ navigation }) {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isLoggedIn) navigation.navigate("HomePage");
+  }, [isLoggedIn]);
+
+  const submitLogin = async () => {
+    const isLogin = await loginService();
+    if (isLogin) dispatch(successAuth());
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.pageTitle}>Login</Text>
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={loginSchema}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={() => submitLogin()}
       >
         {({
           handleChange,

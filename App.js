@@ -3,6 +3,8 @@ import { StyleSheet, View, Text } from "react-native";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import store from "./store/store";
+import { Provider } from "react-redux";
 import {
   InitialPage,
   HomePage,
@@ -28,16 +30,18 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="InitialPage" component={InitialPage} />
-        <Stack.Screen name="HomePage" component={HomePage} />
-        <Stack.Screen name="ThaliPage" component={ThaliPage} />
-        <Stack.Screen name="CoursePage" component={CoursePage} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="SignUp" component={SignUp} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="InitialPage" component={InitialPage} />
+          <Stack.Screen name="HomePage" component={HomePage} />
+          <Stack.Screen name="ThaliPage" component={ThaliPage} />
+          <Stack.Screen name="CoursePage" component={CoursePage} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="SignUp" component={SignUp} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 
