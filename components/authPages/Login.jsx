@@ -1,10 +1,20 @@
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
-import React, { useEffect } from "react";
+import {
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  ActivityIndicator,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import styles from "./authPage.styles";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useSelector, useDispatch } from "react-redux";
-import { successAuth } from "../../store/authSlice.js";
+import {
+  successAuth,
+  startLoading,
+  stopLoading,
+} from "../../store/authSlice.js";
 import { loginService } from "../../services/auth.js";
 
 const loginSchema = Yup.object().shape({
@@ -22,16 +32,21 @@ const loginSchema = Yup.object().shape({
 });
 
 export default function Login({ navigation }) {
+  const [errorData, setErrorData] = useState({});
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const isLoading = useSelector((state) => state.auth.isLoading);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (isLoggedIn) navigation.navigate("HomePage");
   }, [isLoggedIn]);
 
-  const submitLogin = async () => {
-    const isLogin = await loginService();
-    if (isLogin) dispatch(successAuth());
+  const submitLogin = async (values) => {
+    dispatch(startLoading());
+    const loginResp = await loginService(values);
+    if (loginResp.Status === "success") dispatch(successAuth());
+    else setErrorData(loginResp);
+    dispatch(stopLoading());
   };
 
   return (
@@ -40,7 +55,7 @@ export default function Login({ navigation }) {
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={loginSchema}
-        onSubmit={() => submitLogin()}
+        onSubmit={(values) => submitLogin(values)}
       >
         {({
           handleChange,
@@ -72,6 +87,9 @@ export default function Login({ navigation }) {
             {touched.password && errors.password && (
               <Text style={styles.errorText}>{errors.password}</Text>
             )}
+            {errorData.Status === "Failed" ? (
+              <Text style={styles.errorMsg}>{errorData.message}</Text>
+            ) : null}
             <TouchableOpacity style={styles.submitBtn} onPress={handleSubmit}>
               <Text style={styles.submitBtnText}>Login</Text>
             </TouchableOpacity>
@@ -81,6 +99,7 @@ export default function Login({ navigation }) {
       <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
         <Text style={styles.smallText}>Don't have an account? SignUp</Text>
       </TouchableOpacity>
+      {isLoading && <ActivityIndicator size="large" color="#007FFF" />}
     </View>
   );
 }

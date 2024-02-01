@@ -44,4 +44,10 @@ export default styles = StyleSheet.create({
     color: COLORS.primary,
     paddingTop: 8,
   },
+  errorMsg: {
+    textAlign: "center",
+    color: COLORS.error,
+    paddingTop: 4,
+    fontSize: 16,
+  },
 });

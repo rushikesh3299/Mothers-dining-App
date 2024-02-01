@@ -4,15 +4,20 @@ export const authSlice = createSlice({
   name: "auth",
   initialState: {
     isLoggedIn: false,
+    isLoading: false,
   },
   reducers: {
     successAuth: (state) => {
-      console.log("state from redux B", state.isLoggedIn);
       state.isLoggedIn = true;
-      console.log("state from redux A", state.isLoggedIn);
+    },
+    startLoading: (state) => {
+      state.isLoading = true;
+    },
+    stopLoading: (state) => {
+      state.isLoading = false;
     },
   },
 });
 
-export const { successAuth } = authSlice.actions;
+export const { successAuth, startLoading, stopLoading } = authSlice.actions;
 export default authSlice.reducer;

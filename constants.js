@@ -6,6 +6,7 @@ const COLORS = {
   gray: "#83829A",
   gray2: "#C1C0C8",
   gray3: "#F6F6F6",
+  gray4: "#50555C",
 
   error: "#DC3023",
 
