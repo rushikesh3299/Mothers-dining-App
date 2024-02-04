@@ -44,7 +44,7 @@ export default function Login({ navigation }) {
   const submitLogin = async (values) => {
     dispatch(startLoading());
     const loginResp = await loginService(values);
-    if (loginResp.Status === "success") dispatch(successAuth());
+    if (loginResp.status === "success") dispatch(successAuth());
     else setErrorData(loginResp);
     dispatch(stopLoading());
   };

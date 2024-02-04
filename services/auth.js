@@ -13,11 +13,16 @@ const loginService = async (reqData) => {
   return loginResp;
 };
 
-const signUpService = async () => {
-  console.log("SignUp called");
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  console.log("waitin to return signUp");
-  return true;
+const signUpService = async (reqData) => {
+  const signUpResp = await axios
+    .post(`${apiEndPt}/signup`, reqData)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response.data;
+    });
+  return signUpResp;
 };
 
 export { loginService, signUpService };

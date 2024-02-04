@@ -25,9 +25,7 @@ export default function CoursePage({ navigation }) {
         const allMenuItems = await getMenuItems();
         dispatch(setMenuItems(allMenuItems.data));
         setIsMenuLoading(false);
-      } catch (error) {
-        console.error("Failed to fetch menu items:", error.data);
-      }
+      } catch (error) {}
     };
 
     getAllMenuItems();

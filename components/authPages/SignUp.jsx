@@ -5,20 +5,24 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./authPage.styles";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useSelector, useDispatch } from "react-redux";
-import { successAuth } from "../../store/authSlice.js";
+import {
+  successAuth,
+  startLoading,
+  stopLoading,
+} from "../../store/authSlice.js";
 import { signUpService } from "../../services/auth.js";
 
-const loginSchema = Yup.object().shape({
+const signUpSchema = Yup.object().shape({
   name: Yup.string().required("Your name is required for SignUp"),
-  contact: Yup.number()
+  phone: Yup.number()
     .min(999999999, "Should not be less than 10 chars")
     .max(10000000000, "Should not be more than 10 chars")
-    .required("Please provide contact number"),
+    .required("Please provide phone number"),
   email: Yup.string()
     .email("Invalid Email")
     .required("The Email Field can't be empty"),
@@ -36,6 +40,7 @@ const loginSchema = Yup.object().shape({
 });
 
 export default function SignUp({ navigation }) {
+  const [errorData, setErrorData] = useState({});
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
 
@@ -43,9 +48,12 @@ export default function SignUp({ navigation }) {
     if (isLoggedIn) navigation.navigate("HomePage");
   }, [isLoggedIn]);
 
-  const submitSignUp = async () => {
-    const isLogin = await signUpService();
-    if (isLogin) dispatch(successAuth());
+  const submitSignUp = async (values) => {
+    dispatch(startLoading());
+    const signUpResp = await signUpService(values);
+    if (signUpResp.status === "success") dispatch(successAuth());
+    else setErrorData(signUpResp);
+    dispatch(stopLoading());
   };
 
   return (
@@ -54,13 +62,13 @@ export default function SignUp({ navigation }) {
       <Formik
         initialValues={{
           name: "",
-          contact: "",
+          phone: "",
           email: "",
           password: "",
           confirmPassword: "",
         }}
-        validationSchema={loginSchema}
-        onSubmit={() => submitSignUp()}
+        validationSchema={signUpSchema}
+        onSubmit={(values) => submitSignUp(values)}
       >
         {({
           handleChange,
@@ -82,14 +90,14 @@ export default function SignUp({ navigation }) {
               <Text style={styles.errorText}>{errors.name}</Text>
             )}
             <TextInput
-              placeholder="Contact No"
-              onChangeText={handleChange("contact")}
-              onBlur={handleBlur("contact")}
-              value={values.contact}
+              placeholder="phone No"
+              onChangeText={handleChange("phone")}
+              onBlur={handleBlur("phone")}
+              value={values.phone}
               style={styles.formInput}
             />
-            {touched.contact && errors.contact && (
-              <Text style={styles.errorText}>{errors.contact}</Text>
+            {touched.phone && errors.phone && (
+              <Text style={styles.errorText}>{errors.phone}</Text>
             )}
             <TextInput
               placeholder="Email"
