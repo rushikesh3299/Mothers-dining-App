@@ -1,10 +1,7 @@
 import {
   SafeAreaView,
   Text,
-  View,
   ActivityIndicator,
-  Image,
-  TouchableOpacity,
   ScrollView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
@@ -13,6 +10,7 @@ import TopBar from "../topBar/TopBar";
 import { getMenuItems } from "../../services/menuItems";
 import { useSelector, useDispatch } from "react-redux";
 import { setMenuItems } from "../../store/menuSlice";
+import MenuBox from "../MenuBox/MenuBox";
 
 export default function ThaliPage({ navigation }) {
   const dispatch = useDispatch();
@@ -38,44 +36,13 @@ export default function ThaliPage({ navigation }) {
         <ActivityIndicator size="large" color="#007FFF" />
       ) : (
         <ScrollView>
-          {menuItems.map((singleItem) => {
-            return singleItem.category === "thali" ? (
-              <View key={singleItem._id} style={styles.singleMenu}>
-                <Image
-                  style={styles.menuImg}
-                  source={{ uri: "https://picsum.photos/74/74" }}
-                />
-                <View style={styles.menuContent}>
-                  <View style={styles.menuTitle}>
-                    <Text>{singleItem.name}</Text>
-                    <Text>veg/non-veg icon</Text>
-                  </View>
-                  <Text>{singleItem.content}</Text>
-                  <View style={styles.menuBottom}>
-                    <Text>{singleItem.price}₹</Text>
-                    <Text>{singleItem.rating}⭐</Text>
-                    <Text>({singleItem.TotalRating}+)</Text>
-                  </View>
-                  <View style={styles.orderNewBtn}>
-                    <View style={styles.orderModifyBtn}>
-                      <TouchableOpacity>
-                        <Text>+</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity>
-                        <Text>QTY</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity>
-                        <Text>-</Text>
-                      </TouchableOpacity>
-                    </View>
-                    <TouchableOpacity>
-                      <Text>Order</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-            ) : null;
-          })}
+          <MenuBox menuItems={menuItems} menuCategory="thali" menuType="veg" />
+          <Text>Seperator</Text>
+          <MenuBox
+            menuItems={menuItems}
+            menuCategory="thali"
+            menuType="non-veg"
+          />
         </ScrollView>
       )}
       <Text>Sample Text</Text>

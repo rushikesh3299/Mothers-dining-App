@@ -6,10 +6,7 @@ export default function TopBar({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
-        <TouchableOpacity
-          style={styles.hamburgerContainer}
-          // onPress={() => navigation.openDrawer()}
-        >
+        <TouchableOpacity style={styles.hamburgerContainer}>
           <View style={[styles.hamburgerLine, styles.line1]}></View>
           <View style={[styles.hamburgerLine, styles.line2]}></View>
           <View style={[styles.hamburgerLine, styles.line3]}></View>
