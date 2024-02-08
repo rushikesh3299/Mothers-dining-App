@@ -11,9 +11,9 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  successAuth,
   startLoading,
   stopLoading,
+  saveUserData,
 } from "../../store/authSlice.js";
 import { signUpService } from "../../services/auth.js";
 
@@ -51,7 +51,7 @@ export default function SignUp({ navigation }) {
   const submitSignUp = async (values) => {
     dispatch(startLoading());
     const signUpResp = await signUpService(values);
-    if (signUpResp.status === "success") dispatch(successAuth());
+    if (signUpResp.status === "success") dispatch(saveUserData(signUpResp));
     else setErrorData(signUpResp);
     dispatch(stopLoading());
   };

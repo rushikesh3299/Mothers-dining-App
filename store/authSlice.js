@@ -5,19 +5,21 @@ export const authSlice = createSlice({
   initialState: {
     isLoggedIn: false,
     isLoading: false,
+    userData: {}
   },
   reducers: {
-    successAuth: (state) => {
-      state.isLoggedIn = true;
-    },
     startLoading: (state) => {
       state.isLoading = true;
     },
     stopLoading: (state) => {
       state.isLoading = false;
     },
+    saveUserData: (state, action) => {
+      state.isLoggedIn = true;
+      state.userData = action.payload
+    }
   },
 });
 
-export const { successAuth, startLoading, stopLoading } = authSlice.actions;
+export const { startLoading, stopLoading, saveUserData } = authSlice.actions;
 export default authSlice.reducer;
